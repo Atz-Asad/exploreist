@@ -21,8 +21,7 @@
         slideMargin: 40,
         slideWidth: 400,
         ticker: true,
-        // speed: 9000,
-        speed:18000,
+        speed: 45000,
         responsive: true,
         responsive: {
             600: {

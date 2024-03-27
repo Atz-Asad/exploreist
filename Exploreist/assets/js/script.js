@@ -3,6 +3,38 @@
   "use strict";
 
 
+    $(document).on('submit', '#contactForm, #callRequestForm, #downloadForm',function(e) {
+        e.preventDefault();
+
+        var form = $(this);
+        var formData = form.serialize();
+        var responseDiv = form.find('.response');
+        form.find('[type="submit"]').prop('disabled', true); 
+        formData += '&id='+form.attr('id');
+
+        responseDiv.html('<p>Working....</p>');
+
+        $.ajax({
+        type: 'POST',
+        url: 'mail.php',
+        data: formData,
+        success: function(response) {
+            var data = JSON.parse(response);
+            if (data.error) {
+            responseDiv.empty().html('<div class="alert alert-error">'+data.msg+'</div>');
+            // You can add additional actions for success here
+            } else {
+            responseDiv.empty().html('<div class="alert alert-sucess">'+data.msg+'</div>');
+            form.get(0).reset();
+            }
+            form.find('[type="submit"]').prop('disabled', false); 
+        },
+        error: function(error) {
+            console.log('Error:', error);
+            form.find('[type="submit"]').prop('disabled', false); 
+        }
+        });
+    });  
 
     // popup video
     new VenoBox({
